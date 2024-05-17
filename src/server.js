@@ -1,4 +1,3 @@
-// server.js
 const fs = require('fs');
 const https = require('https');
 const express = require('express');
@@ -12,11 +11,11 @@ dotenv.config();
 
 const app = express();
 
-// Load your SSL certificate and key
+// Load your SSL certificate and key, these options - loaded into the createServer method below are what make up the transport layer security. 
 const options = {
-    key: fs.readFileSync('path/to/your/private.key'),
-    cert: fs.readFileSync('path/to/your/certificate.crt'),
-    ca: fs.readFileSync('path/to/your/ca_bundle.crt') // only required if using a certificate authority
+  key: fs.readFileSync(process.env.SSL_KEY_PATH),
+  cert: fs.readFileSync(process.env.SSL_CERT_PATH),
+  ca: process.env.SSL_CA_PATH ? fs.readFileSync(process.env.SSL_CA_PATH) : undefined
 };
 
 // Use CORS middleware
@@ -51,6 +50,6 @@ app.get('/', (req, res) => {
 });
 
 // Create an HTTPS server
-https.createServer(options, app).listen(3001, () => {
-    console.log('Server is running on https://localhost:3001');
+https.createServer(options, app).listen(process.env.PORT, () => {
+  console.log(`Server is running on https://localhost:${process.env.PORT}`);
 });
