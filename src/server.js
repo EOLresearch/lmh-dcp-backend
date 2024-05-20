@@ -21,5 +21,5 @@ const options = {
 
 // Create an HTTP server
 http.createServer(app).listen(process.env.PORT, () => {
-  console.log(`Server is running on http://localhost:${process.env.PORT}`);
+  console.log(`HTTP (NO TLS) Server is running on http://localhost:${process.env.PORT}`);
 });
